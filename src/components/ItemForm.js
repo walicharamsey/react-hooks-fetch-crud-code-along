@@ -1,11 +1,36 @@
 import React, { useState } from "react";
 
-function ItemForm() {
+function ItemForm({ onAddItem }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Produce");
 
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate if name is not empty before adding
+    if (name.trim() === "") {
+      alert("Please enter a name for the item.");
+      return;
+    }
+
+    // Create a new item object
+    const newItem = {
+      name: name,
+      category: category,
+      isInCart: false,
+    };
+
+    // Pass the new item to the parent component
+    onAddItem(newItem);
+
+    // Reset the form fields after adding
+    setName("");
+    setCategory("Produce");
+  };
+
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
